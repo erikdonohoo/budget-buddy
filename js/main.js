@@ -1,4 +1,5 @@
-var app = angular.module("BudgetBuddy", ['ngRoute']);
+var app = angular.module("BudgetBuddy", ['ngRoute', 'ngResource']);
+app.value("URL", "https://api.parse.com/1/"); // Default URL
 
 // Resolution for logging in
 var loggedIn =  {
@@ -19,7 +20,7 @@ var loggedIn =  {
 };
 
 // Config routes 
-app.config(function($routeProvider) {
+app.config(function($routeProvider, $httpProvider) {
 	$routeProvider
 		.when('/', {
 			templateUrl: 'partials/login.html',
@@ -30,5 +31,14 @@ app.config(function($routeProvider) {
 			controller: "OverviewCtrl",
 			resolve: loggedIn
 		})
+		.when('/budgets/thismonth', {
+			templateUrl: 'partials/budget.html',
+			controller: "BudgetCtrl",
+			resolve: loggedIn
+		})
 		.otherwise({redirectTo: '/'});
+
+	// Set headers
+	$httpProvider.defaults.headers.common['X-Parse-Application-Id'] = "Ilvxw1893T2VjzlrayOhvpvzryMpbzDWoPK6edxT";
+	$httpProvider.defaults.headers.common['X-Parse-REST-API-Key'] = "0wggNB8EzSsk9XqCRPaYwloT4jOVdHGHEF1RXguQ";
 })

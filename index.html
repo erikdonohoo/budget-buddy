@@ -19,6 +19,7 @@
     		<a class="navbar-brand" href="#/">Budget Buddy</a>
     		<ul class="nav navbar-nav">
     			<li ng-if="loggedIn()" ng-class="{active: path == '/overview'}"><a href="#/overview">Overview</a></li>
+    			<li ng-if="loggedIn()" ng-class="{active: path == '/budgets/thismonth'}"><a href="#/budgets/thismonth">This Month</a></li>
     		</ul>
     		<ul class="nav navbar-nav navbar-right">
     			<li ng-if="loggedIn()"><a href="" ng-click="logout()">Logout</a></li>
@@ -28,6 +29,8 @@
     	</div>
         
         <script src="js/vendor/angular.js"></script>
+        <script src="bootstrap/ui-bootstrap-custom-tpls-0.7.0.js"></script>
+        <script src="bootstrap/ui-bootstrap-custom-0.7.0.js"></script>
         <script src="js/vendor/angular-resource.js"></script>
         <script src="js/vendor/angular-route.js"></script>
         <script src="js/main.js"></script>
@@ -36,8 +39,24 @@
         <script src="js/controllers/login.js"></script>
         <script src="js/controllers/overview.js"></script>
         <script src="js/controllers/nav.js"></script>
+        <script src="js/controllers/budget.js"></script>
 
         <!-- Services -->
         <script src="js/services/user.js"></script>
+        <script src="js/services/datehelp.js"></script>
+        <script src="js/services/quickbudget.js"></script>
+        <script src="js/services/quickexpense.js"></script>
+        <script src="js/services/quickincome.js"></script>
+
+        <!-- Resources -->
+        <script src="js/services/resources/category.js"></script>
+        <script src="js/services/resources/budget.js"></script>
+        <script src="js/services/resources/expense.js"></script>
+        <script src="js/services/resources/income.js"></script>
+
+        <!-- Filters -->
+        <script src="js/filters/category.js"></script>
+        <script src="js/filters/objectFilter.js"></script>
+        <script src="js/filters/budgetFilter.js"></script>
     </body>
 </html>

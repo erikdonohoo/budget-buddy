@@ -1,2 +1,19 @@
 html,body{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
 .center{margin:0 auto;text-align:center}
+.top{margin-top:0;padding-top:0}
+.clickable{cursor:pointer}
+.loading{width:40px;height:40px}
+.budget-overview{margin-top:40px}
+.expense h1,.expense h2,.expense h3,.expense h4,.expense h5{margin:5px 0}
+.expense hr{margin:10px}
+.expense .form-control{margin-left:0}
+.expense.new{margin-top:20px}.expense.new>*{margin-top:10px}
+.budget{min-height:50px;margin:0 0 10px 0;width:100%;border:1px solid #000;border-radius:5px}.budget strong{font-size:18px;position:relative;top:10px}
+.budget .edit{margin-top:10px}
+.budget .holder{position:relative;border-radius:inherit;background:#f0feff;padding:0 10px}.budget .holder .budget-spent{min-height:inherit;border-radius:inherit;margin-left:-10px;margin-right:-10px;position:absolute}.budget .holder .budget-spent.green{background:#83ff83}
+.budget .holder .budget-spent.yellow{background:#ffffae}
+.budget .holder .budget-spent.red{background:#ff4a4a}
+.budget>*{min-height:inherit;width:inherit}
+.budget .input-group{padding-left:0}
+.budget.new .holder{background:#fff;position:relative}
+.budget.new .save,.budget.new .inputs{min-height:50px;margin-top:10px}

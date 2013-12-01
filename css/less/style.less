@@ -1,3 +1,8 @@
+
+@green: #83FF83;
+@yellow: #FFFFAE;
+@red: #FF4A4A;
+
 html, body {
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
@@ -6,4 +11,100 @@ html, body {
 .center {
 	margin:0 auto;
 	text-align: center;
+}
+.top {
+	margin-top:0;
+	padding-top:0;
+}
+.clickable {
+	cursor:pointer;
+}
+.loading {
+	width:40px;
+	height:40px;
+}
+.budget-overview {
+	margin-top:40px;
+}
+
+.expense {
+	h1,h2,h3,h4,h5 {
+		margin:5px 0;
+	}
+	hr {
+		margin:10px;
+	}
+
+	.form-control {
+		margin-left:0;
+	}
+
+	&.new {
+		margin-top:20px;
+		> * {
+			margin-top:10px;
+		}
+	}
+}
+
+.budget {
+
+	min-height:50px;
+	margin:0 0 10px 0;
+	width:100%;
+	border:1px solid black;
+	border-radius:5px;
+
+	strong {
+		font-size:18px;
+		position:relative;
+		top:10px;
+	}
+	.edit {
+		margin-top:10px;
+	}
+	.holder {
+		position:relative;
+		border-radius:inherit;
+		background:#F0FEFF;
+		padding:0 10px;
+
+		.budget-spent {
+			min-height:inherit;
+			border-radius:inherit;
+			margin-left:-10px;
+			margin-right:-10px;
+			position:absolute;
+			&.green {
+				background:@green;
+			}
+			&.yellow {
+				background:@yellow;
+			}
+			&.red {
+				background:@red;
+			}
+		}
+
+	}
+
+	> * {
+		min-height:inherit;
+		width:inherit;
+	}
+
+	.input-group {
+		padding-left:0;
+	}
+
+	&.new {
+		.holder {
+			background:white;
+			position:relative;
+		}
+		.save, .inputs {
+			min-height:50px;
+			margin-top:10px;
+		}
+	}
 }

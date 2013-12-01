@@ -2,14 +2,17 @@ angular.module("BudgetBuddy").controller('LoginCtrl', function($scope, User, $lo
 	
 	$scope.user = {};
 	$scope.signIn = function() {
+		$scope.user.loading = true;
 		User.signIn($scope.user,
 			function(user){
 				// Go to overview
 				$location.path('/overview');
+				$scope.user.loading = false;
 			}, function(user, err) {
 				console.log("error");
 				$scope.user = {};
 				$scope.user.message = "Invalid credentials, try again";
+				$scope.user.loading = false;
 		});
 	}
 

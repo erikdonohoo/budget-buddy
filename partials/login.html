@@ -20,7 +20,8 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-3 col-sm-9">
-				<div class="alert alert-danger" ng-if="user.message && (!user.email || user.email.length ==0)">{{user.message}}</div>
+				<div class="alert alert-danger" ng-if="user.message && (!user.email || user.email.length == 0)">{{user.message}}</div>
+				<img class="loading center" ng-if="user.loading" src="img/loading.gif" />
 			</div>
 		</div>
 	</form>
