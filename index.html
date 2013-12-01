@@ -1,0 +1,43 @@
+<!doctype html>
+<html ng-app="BudgetBuddy">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Budget Buddy</title>
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="author" href="humans.txt">
+        <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.13.min.js"></script>
+        <script>
+        	// Init Parse for backend
+        	Parse.initialize("Ilvxw1893T2VjzlrayOhvpvzryMpbzDWoPK6edxT", "K9OztHlmPA8aHsBiBUNOGTxkrzLiKKld1GG5tLT8");
+        </script>
+    </head>
+    <body>
+    	<nav class="navbar navbar-default" ng-controller="NavCtrl">
+    		<a class="navbar-brand" href="#/">Budget Buddy</a>
+    		<ul class="nav navbar-nav">
+    			<li ng-if="loggedIn()" ng-class="{active: path == '/overview'}"><a href="#/overview">Overview</a></li>
+    		</ul>
+    		<ul class="nav navbar-nav navbar-right">
+    			<li ng-if="loggedIn()"><a href="" ng-click="logout()">Logout</a></li>
+    		</ul>
+    	</nav>
+    	<div class="container" ng-view>
+    	</div>
+        
+        <script src="js/vendor/angular.js"></script>
+        <script src="js/vendor/angular-resource.js"></script>
+        <script src="js/vendor/angular-route.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Controllers -->
+        <script src="js/controllers/login.js"></script>
+        <script src="js/controllers/overview.js"></script>
+        <script src="js/controllers/nav.js"></script>
+
+        <!-- Services -->
+        <script src="js/services/user.js"></script>
+    </body>
+</html>
