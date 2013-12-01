@@ -28,9 +28,9 @@
 				</div>
 			</div>
 		</div>
-		<div ng-repeat="budget in budgets | orderBy:'updatedAt':true track by budget.objectId" class="budget">
+		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget">
 			<div class="holder">
-				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent == 100}"></div>
+				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left">{{budget.category | categoryFilter}}</strong>				
 				<strong class="pull-right">&nbsp;<span class="glyphicon glyphicon-cog clickable" ng-click="budget.edit = true"></span>&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
 				<strong class="pull-right">{{budget.totalSpent | currency}} of {{budget.amount | currency}}</strong>
@@ -96,7 +96,7 @@
 		<div class="clearfix"></div>
 		<hr>
 		<div class="expense" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId">
-			<h4>{{expense.amount | currency}} <small>{{expense.description}}</small><strong class="pull-right"><span class="clickable glyphicon glyphicon-trash" ng-click="deleteExpense(expense)"></span> &nbsp;&nbsp; {{expense.date.iso | date:'mediumDate'}} &nbsp;&nbsp; {{expense.category | categoryFilter}}</strong></h4>
+			<h4>{{expense.amount | currency}} <small>{{expense.description}}</small><strong class="pull-right">{{expense.date.iso | date:'mediumDate'}} &nbsp;&nbsp; {{expense.category | categoryFilter}} &nbsp;&nbsp;<span class="clickable glyphicon glyphicon-trash" ng-click="deleteExpense(expense)"></span></strong></h4>
 			<hr>
 		</div>
 	</div>

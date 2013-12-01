@@ -13,6 +13,7 @@ html,body{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:bo
 .budget .holder{position:relative;border-radius:inherit;background:#f0feff;padding:0 10px}.budget .holder .budget-spent{min-height:inherit;border-radius:inherit;margin-left:-10px;margin-right:-10px;position:absolute}.budget .holder .budget-spent.green{background:#83ff83}
 .budget .holder .budget-spent.yellow{background:#ffffae}
 .budget .holder .budget-spent.red{background:#ff4a4a}
+.budget .holder .budget-spent.blue{background:#667eff}
 .budget>*{min-height:inherit;width:inherit}
 .budget .input-group{padding-left:0}
 .budget.new .holder{background:#fff;position:relative}
