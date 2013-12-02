@@ -1,4 +1,4 @@
-<div class="col-sm-12 hidden-sm hidden-xs">
+<div class="hidden-sm hidden-xs">
 	<div class="col-sm-offset-2 col-sm-3">
 		<button ng-click="show = 'budgets'" class="btn btn-default btn-lg" ng-class="{active: show == 'budgets'}">Budgets</button>
 	</div>
@@ -6,7 +6,7 @@
 		<button ng-click="show = 'expenses'" class="btn btn-default btn-lg" ng-class="{active: show == 'expenses'}">Expenses</button>
 	</div>
 </div>
-<div class="col-sm-12 visible-sm visible-xs">
+<div class="visible-sm visible-xs">
 	<button ng-click="show = 'budgets'" class="btn btn-default btn-lg pull-left" ng-class="{active: show == 'budgets'}">Budgets</button>
 	<button ng-click="show = 'expenses'" class="btn btn-default btn-lg pull-right" ng-class="{active: show == 'expenses'}">Expenses</button>
 	<div class="clearfix"></div>
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 		<hr>
-		<div class="col-sm-12">
+		<div>
 			<h3 class="top">Income: {{month.totalIncome | currency}}</h3>
 			<h3 class="top">Carryover: {{incomeLastMonth - spentLastMonth | currency}}</h3>
 			<h3 class="top">Budgeted: {{month.totalBudgeted | currency}}</h3>
