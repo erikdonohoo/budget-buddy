@@ -19,9 +19,8 @@
     </head>
     <body>
     	<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavCtrl">
-    		<a class="navbar-brand" href="#/">Budget Buddy</a>
+    		<a class="navbar-brand" href="#/overview">Budget Buddy</a>
     		<ul class="nav navbar-nav hidden-sm hidden-xs">
-    			<li ng-if="loggedIn()" ng-class="{active: path == '/overview'}"><a href="#/overview">Overview</a></li>
     			<li ng-if="loggedIn()" ng-class="{active: path == '/budgets/thismonth'}"><a href="#/budgets/thismonth">This Month</a></li>
                 <li ng-if="loggedIn()" ng-class="{active: path == '/budgets/lastmonth'}"><a href="#/budgets/lastmonth">Last Month</a></li>
                 <li ng-if="loggedIn()" ng-class="{active: path == '/budgets/nextmonth'}"><a href="#/budgets/nextmonth">Next Month</a></li>
