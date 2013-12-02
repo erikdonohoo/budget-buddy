@@ -95,9 +95,25 @@
 		</div>
 		<div class="clearfix"></div>
 		<hr>
+		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}
 		<div class="expense" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId">
 			<h4>{{expense.amount | currency}} <small>{{expense.description}}</small><strong class="pull-right">{{expense.date.iso | date:'mediumDate'}} &nbsp;&nbsp; {{expense.category | categoryFilter}} &nbsp;&nbsp;<span class="clickable glyphicon glyphicon-trash" ng-click="deleteExpense(expense)"></span></strong></h4>
 			<hr>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<h3>Income <small class="pull-right" ng-click="addIncome()"><button class="btn btn-link">+ Add Income</button></small></h3>
+		<div class="col-sm-12" ng-if="newIncome">
+			<input type="text" ng-model="newIncome.description" class="form-control" placeholder="Description" />
+			<input type="number" ng-model="newIncome.amount" class="form-control" placeholder="Amount" />
+			<input type="date" ng-model="newIncome.fakeDate" class="form-control" ng-change="fixDate(newIncome)" placeholder="Date" />
+			<button class="btn btn-primary" ng-disabled="!newIncome.description || !newIncome.amount || !newIncome.fakeDate" ng-click="saveIncome()">Save</button>
+			<button class="btn btn-danger" ng-click="cancelIncome()">Cancel</button>
+		</div>
+		<div class="col-sm-12">
+			<div class="income" ng-repeat="income in incomes">
+				<h4>{{income.amount | currency}} <small>{{income.description}}</small><strong class="pull-right">{{income.date.iso | date:'mediumDate'}}</strong><span ng-click="deleteIncome(income)" class="close">&times;</span></h4>
+			</div>
 		</div>
 	</div>
 </div>

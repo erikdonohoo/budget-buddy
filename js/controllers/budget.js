@@ -1,4 +1,4 @@
-angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope, $filter, User, QuickBudget, Categories, Budgets, QuickExpense, Expenses, QuickIncome){
+angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope, $filter, User, QuickBudget, Categories, Budgets, QuickExpense, Income, Expenses, QuickIncome, FilterHelper){
 	
 	// Start showing budgets
 	$scope.show = 'budgets';
@@ -12,22 +12,30 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope
 		$scope.expenses = QuickExpense.thisMonth(null, function(){
 			for (var i = $scope.expenses.length - 1; i >= 0; i--) {
 				var e = $scope.expenses[i];
-				$timeout(function(){
-					e.cat = $filter('categoryFilter')(e.category);
-					e.easyDate = $filter('date')(e.date.iso, 'mediumDate');
-				})
+				(function(exp){
+					FilterHelper.defer.promise.then(function(){
+						exp.cat = $filter('categoryFilter')(exp.category);
+						exp.easyDate = $filter('date')(exp.date.iso, 'mediumDate');
+					});
+				})(e)
 			};
 		});
 	}
 
 	getExpenses();
 
-	QuickIncome.thisMonth(function(incomes) {
-		for (var i = incomes.length - 1; i >= 0; i--) {
-			var inc = incomes[i];
-			month.totalIncome += inc.amount;
-		};
-	})
+	function getIncome() {
+		month.totalIncome = 0;
+		$scope.incomes = QuickIncome.thisMonth(function(incomes) {
+			for (var i = incomes.length - 1; i >= 0; i--) {
+				var inc = incomes[i];
+				month.totalIncome += inc.amount;
+			};
+		})
+	}
+
+	getIncome();
+	
 
 	// Get budgets
 	$scope.loading = true;
@@ -74,6 +82,14 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope
 	$scope.categories = Categories.query(); // Limit to unused categories
 	$scope.now = new Date();
 
+	$scope.totalExpenses = function(expenses) {
+		var total = 0;
+		for (var i = expenses.length - 1; i >= 0; i--) {
+			total += expenses[i].amount;
+		};
+		return total;
+	}
+
 	$scope.addBudget = function() {
 		$scope.newBudget = {};
 	}
@@ -101,9 +117,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope
 		});
 	}
 	$scope.deleteBudget = function(budg) {
-		budg.$delete(function() {
-			updateBudgets();
-		});
+		if (confirm("Are you sure you want to delete this?")) {
+			budg.$delete(function() {
+				updateBudgets();
+			});
+		}
 	}
 	$scope.updateBudget = function(budget) {
 		Budgets.update({objectId: budget.objectId, amount: budget.amount}, function(){
@@ -122,10 +140,12 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope
 		expense.date = new Date(stuff[0], stuff[1]-1, stuff[2]);
 	}
 	$scope.deleteExpense = function(expense) {
-		expense.$delete(function(){
-			getExpenses();
-			updateBudgets();
-		})
+		if (confirm("Are you sure you want to delete this?")) {
+			expense.$delete(function(){
+				getExpenses();
+				updateBudgets();
+			})
+		}
 	}
 	$scope.saveExpense = function() {
 		var user = {};
@@ -144,7 +164,35 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $scope
 		Expenses.save($scope.newExpense, function(){
 			$scope.cancelExpense();
 			getExpenses();
-			$timeout(function(){udpateBudgets();});
+			$timeout(function(){updateBudgets();});
+		})
+	}
+	$scope.addIncome = function() {
+		$scope.newIncome = {};
+	}
+	$scope.cancelIncome = function() {
+		$scope.newIncome = null;
+	}
+	$scope.deleteIncome = function(income) {
+		income.$delete(function(){
+			getIncome();
+			updateBudgets();
+		})
+	}
+	$scope.saveIncome = function() {
+		var user = {};
+		var date = {};
+		user['__type'] = "Pointer";
+		user.objectId = User.getCurrentUser().id;
+		user.className = "_User";
+		date['__type'] = "Date";
+		date.iso = $scope.newIncome.date.toISOString();
+		$scope.newIncome.date = date;
+		$scope.newIncome.user = user;
+		Income.save($scope.newIncome, function(){
+			$scope.cancelIncome();
+			getIncome();
+			$timeout(function(){updateBudgets();});
 		})
 	}
 });
