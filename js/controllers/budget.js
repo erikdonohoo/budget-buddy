@@ -4,21 +4,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	$scope.show = 'budgets';
 
 	// Figure out month
-	var quickExpense, quickIncome, quickBudget;
 	if ($routeParams.page == 'thismonth') {
-		quickExpense = QuickExpense.thisMonth;
-		quickIncome = QuickIncome.thisMonth;
-		quickBudget = QuickBudget.thisMonth;
 		$scope.now = new Date();
 	} else if ($routeParams.page == 'lastmonth') {
-		quickExpense = QuickExpense.lastMonth;
-		quickIncome = QuickIncome.lastMonth;
-		quickBudget = QuickBudget.lastMonth;
 		$scope.now = DateHelp.getFirstDayOfPreviousMonth();
 	} else if ($routeParams.page == 'nextmonth') {
-		quickExpense = QuickExpense.nextMonth;
-		quickIncome = QuickIncome.nextMonth;
-		quickBudget = QuickBudget.nextMonth;
 		$scope.now = DateHelp.getFirstDayOfNextMonth();
 	} else {
 		$location.path('/overview');
@@ -28,9 +18,26 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	var month = {};
 	month.totalBudgeted = 0;
 	month.totalIncome = 0;
+	$scope.firstDayOfMonth = DateHelp.getFirstDayOfMonth;
+	$scope.lastDayOfMonth = DateHelp.getLastDayOfMonth;
+
+	// Determine carryover
+	var lastMonth = DateHelp.getFirstDayOfLastMonthWithDate($scope.now);
+	QuickExpense.forMonth(lastMonth, null, function(expenses) {
+		$scope.spentLastMonth = 0;
+		for (var i = expenses.length - 1; i >= 0; i--) {
+			$scope.spentLastMonth += expenses[i].amount;
+		};
+	});
+	QuickIncome.forMonth(lastMonth, function(incomes) {
+		$scope.incomeLastMonth = 0;
+		for (var i = incomes.length - 1; i >= 0; i--) {
+			$scope.incomeLastMonth += incomes[i].amount;
+		};
+	})
 
 	function getExpenses() {
-		$scope.expenses = quickExpense(null, function(){
+		$scope.expenses = QuickExpense.forMonth($scope.now, null, function(){
 			for (var i = $scope.expenses.length - 1; i >= 0; i--) {
 				var e = $scope.expenses[i];
 				(function(exp){
@@ -47,7 +54,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 
 	function getIncome() {
 		month.totalIncome = 0;
-		$scope.incomes = quickIncome(function(incomes) {
+		$scope.incomes = QuickIncome.forMonth($scope.now, function(incomes) {
 			for (var i = incomes.length - 1; i >= 0; i--) {
 				var inc = incomes[i];
 				month.totalIncome += inc.amount;
@@ -63,7 +70,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	var thisMonth;
 	function updateBudgets() {
 
-		thisMonth = quickBudget(function(budgets){
+		thisMonth = QuickBudget.forMonth($scope.now, function(budgets){
 			$scope.loading = false;
 			calculateBudgetedAmount();
 		});
@@ -81,7 +88,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 
 			// How much money spent in this budget?
 			(function(b){
-				b.expenses = quickExpense(b.category, function(){
+				b.expenses = QuickExpense.forMonth($scope.now, b.category, function(){
 					b.totalSpent = 0;
 					for (var i = b.expenses.length - 1; i >= 0; i--) {
 						var expense = b.expenses[i];
@@ -184,7 +191,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 		Expenses.save($scope.newExpense, function(){
 			$scope.cancelExpense();
 			getExpenses();
-			$timeout(function(){updateBudgets();});
+			$timeout(function(){calculateBudgetedAmount();});
 		})
 	}
 	$scope.addIncome = function() {
@@ -196,7 +203,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	$scope.deleteIncome = function(income) {
 		income.$delete(function(){
 			getIncome();
-			updateBudgets();
+			calculateBudgetedAmount();
 		})
 	}
 	$scope.saveIncome = function() {
@@ -212,7 +219,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 		Income.save($scope.newIncome, function(){
 			$scope.cancelIncome();
 			getIncome();
-			$timeout(function(){updateBudgets();});
+			$timeout(function(){calculateBudgetedAmount();});
 		})
 	}
 });
