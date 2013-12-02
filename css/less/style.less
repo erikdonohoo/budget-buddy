@@ -9,6 +9,9 @@ html, body {
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 }
+.nav > li > a {
+	display:inline-block;
+}
 .push-down {
 	margin-top:70px;
 }
@@ -32,6 +35,7 @@ html, body {
 }
 
 .expense {
+	min-height:20px;
 	h1,h2,h3,h4,h5 {
 		margin:5px 0;
 	}
@@ -53,7 +57,8 @@ html, body {
 
 .budget {
 
-	min-height:50px;
+	@height:45px;
+	min-height:@height;
 	margin:0 0 10px 0;
 	width:100%;
 	border:1px solid black;
@@ -61,8 +66,8 @@ html, body {
 
 	strong {
 		font-size:18px;
+		line-height:@height;
 		position:relative;
-		top:10px;
 	}
 	.edit {
 		margin-top:10px;

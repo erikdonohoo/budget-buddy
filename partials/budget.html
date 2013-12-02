@@ -33,8 +33,8 @@
 			<div class="holder">
 				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left">{{budget.category | categoryFilter}}</strong>				
-				<strong class="pull-right">&nbsp;<span class="glyphicon glyphicon-cog clickable" ng-click="budget.edit = true"></span>&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
-				<strong class="pull-right">{{budget.totalSpent | currency}} of {{budget.amount | currency}}</strong>
+				<strong class="pull-right hidden-sm hidden-xs">&nbsp;<span class="glyphicon glyphicon-cog clickable" ng-click="budget.edit = true"></span>&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
+				<strong class="pull-right"><span class="hidden-sm hidden-xs">{{budget.totalSpent | currency}} of {{budget.amount | currency}}</span><span class="visible-sm visible-xs">{{budget.amount - budget.totalSpent | currency}}</span></strong>
 			</div>
 			<div ng-if="budget.edit" class="edit">
 				<div class="col-sm-6">
@@ -66,10 +66,12 @@
 	<div class="col-sm-8 expenses">
 		<h3>Expenses</h3>
 		<div class="col-sm-12">
-			<div class="col-sm-8">
+			<div class="col-sm-8 form-group">
 				<input type="text" placeholder="search" class="form-control" ng-model="search" />
 			</div>
-			<button class="col-sm-offset1 col-sm-2 btn btn-primary" ng-click="addExpense()">+ Add Expense</button>
+			<div class="form-group col-sm-2">
+				<button class="btn btn-primary" ng-click="addExpense()">+ Add Expense</button>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 		<div class="expense new well" ng-if="newExpense">
@@ -97,9 +99,15 @@
 		</div>
 		<div class="clearfix"></div>
 		<hr>
-		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}
-		<div class="expense" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId">
-			<h4>{{expense.amount | currency}} <small>{{expense.description}}</small><strong class="pull-right">{{expense.date.iso | date:'mediumDate'}} &nbsp;&nbsp; {{expense.category | categoryFilter}} &nbsp;&nbsp;<span class="clickable glyphicon glyphicon-trash" ng-click="deleteExpense(expense)"></span></strong></h4>
+		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}</h3>
+		<div class="expense col-sm-12" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId">
+			<strong class="col-sm-2">{{expense.amount | currency}}</strong>
+			<span class="col-sm-4 hidden-sm hidden-xs">{{expense.description}}</span>
+			<span class="col-sm-6">
+				<span class="col-sm-5">{{expense.date.iso | date:'shortDate'}}</span> <span class="col-sm-5">{{expense.category | categoryFilter}}</span>
+				<span class="clickable glyphicon glyphicon-trash hidden-sm hidden-xs col-sm-2" ng-click="deleteExpense(expense)"></span>
+			</span>
+			<div class="clearfix"></div>
 			<hr>
 		</div>
 	</div>
@@ -114,7 +122,9 @@
 		</div>
 		<div class="col-sm-12">
 			<div class="income" ng-repeat="income in incomes">
-				<h4>{{income.amount | currency}} <small>{{income.description}}</small><strong class="pull-right">{{income.date.iso | date:'mediumDate'}} &nbsp;<span ng-click="deleteIncome(income)" class="close">&times;</span></strong></h4>
+				<strong class="col-sm-3">{{income.amount | currency}}</strong>
+				<strong class="col-sm-offset-2 col-sm-7">{{income.date.iso | date:'shortDate'}}<span ng-click="deleteIncome(income)" class="close">&times;</span></strong>
+				<div class="clearfix"></div>
 			</div>
 		</div>
 	</div>
