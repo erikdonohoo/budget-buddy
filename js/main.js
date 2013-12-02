@@ -31,7 +31,7 @@ app.config(function($routeProvider, $httpProvider) {
 			controller: "OverviewCtrl",
 			resolve: loggedIn
 		})
-		.when('/budgets/thismonth', {
+		.when('/budgets/:page', {
 			templateUrl: 'partials/budget.html',
 			controller: "BudgetCtrl",
 			resolve: loggedIn

@@ -26,8 +26,8 @@ angular.module("BudgetBuddy").factory('QuickIncome', function(User, Income, Date
 			obj.where.date.$gte['__type'] = "Date";
 			obj.where.date.$lte = {};
 			obj.where.date.$lte['__type'] = "Date";
-			obj.where.date.$gte.iso = DateHelp.getFirstDayOfMonth(DateHelp.getFirstDayOfPreviousMonth()).toISOString();
-			obj.where.date.$lte.iso = DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth()).toISOString();
+			obj.where.date.$gte.iso = DateHelp.getFirstDayOfMonth(DateHelp.getFirstDayOfNextMonth()).toISOString();
+			obj.where.date.$lte.iso = DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfNextMonth()).toISOString();
 			obj.where.user = {};
 			obj.where.user['__type'] = "Pointer";
 			obj.where.user.className = "_User";
@@ -43,8 +43,8 @@ angular.module("BudgetBuddy").factory('QuickIncome', function(User, Income, Date
 			obj.where.date.$gte['__type'] = "Date";
 			obj.where.date.$lte = {};
 			obj.where.date.$lte['__type'] = "Date";
-			obj.where.date['$gte'].iso = DateHelp.getFirstDayOfMonth(DateHelp.getFirstDayOfNextMonth()).toISOString();
-			obj.where.date['$lte'].iso = DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfNextMonth()).toISOString();
+			obj.where.date['$gte'].iso = DateHelp.getFirstDayOfMonth(DateHelp.getFirstDayOfPreviousMonth()).toISOString();
+			obj.where.date['$lte'].iso = DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth()).toISOString();
 			obj.where.user = {};
 			obj.where.user['__type'] = "Pointer";
 			obj.where.user.className = "_User";

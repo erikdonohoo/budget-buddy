@@ -17,7 +17,7 @@
 						<input type="number" class="form-control" ng-model="newBudget.amount" placeholder="Amount" />
 					</div>
 					<div class="col-sm-6 select">
-						<select ng-options="category.title for category in (categories | budgetFilter:budgets)" ng-model="newBudget.category" class="col-sm-offset-1 col-sm-5 form-control">
+						<select ng-options="category.title for category in (categories | budgetFilter:budgets) | orderBy:'title'" ng-model="newBudget.category" class="col-sm-offset-1 col-sm-5 form-control">
 							<option value="" style="display:none;">--Choose Category--</option>
 						</select>
 					</div>
@@ -112,7 +112,7 @@
 		</div>
 		<div class="col-sm-12">
 			<div class="income" ng-repeat="income in incomes">
-				<h4>{{income.amount | currency}} <small>{{income.description}}</small><strong class="pull-right">{{income.date.iso | date:'mediumDate'}}</strong><span ng-click="deleteIncome(income)" class="close">&times;</span></h4>
+				<h4>{{income.amount | currency}} <small>{{income.description}}</small><strong class="pull-right">{{income.date.iso | date:'mediumDate'}} &nbsp;<span ng-click="deleteIncome(income)" class="close">&times;</span></strong></h4>
 			</div>
 		</div>
 	</div>

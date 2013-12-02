@@ -2,7 +2,7 @@
 <div class="container budget-overview">
 	<div class="col-sm-4 budget-holder">
 		<h3 class="center budget-title">{{lMonth | date:'MMMM yyyy'}}</h3>
-		<img src="img/calendar.jpg" class="calendar clickable img-responsive" />
+		<a href="#/budgets/lastmonth"><img src="img/calendar.jpg" class="calendar clickable img-responsive" /></a>
 	</div>
 	<div class="col-sm-4 budget-holder">
 		<h3 class="center budget-title">{{now | date:'MMMM yyyy'}}</h3>
@@ -10,6 +10,6 @@
 	</div>
 	<div class="col-sm-4 budget-holder">
 		<h3 class="center budget-title">{{nMonth | date:'MMMM yyyy'}}</h3>
-		<img src="img/calendar.jpg" class="calendar clickable img-responsive" />
+		<a href="#/budgets/nextmonth"><img src="img/calendar.jpg" class="calendar clickable img-responsive" /></a>
 	</div>
 </div>
