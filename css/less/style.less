@@ -78,6 +78,13 @@ html, body {
 		background:#F0FEFF;
 		padding:0 10px;
 
+		.category {
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+			max-width:70%;
+			display:inline-block;
+		}
 		.budget-spent {
 			-webkit-transition: width 1s ease-in;
 			   -moz-transition: width 1s ease-in;
@@ -124,4 +131,7 @@ html, body {
 			margin-top:10px;
 		}
 	}
+}
+.spacer {
+	margin-bottom:40px;
 }
