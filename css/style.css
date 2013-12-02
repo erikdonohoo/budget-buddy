@@ -64,6 +64,7 @@ body {
 }
 .budget .edit {
   margin-top: 10px;
+  padding: 5px;
 }
 .budget .holder {
   position: relative;

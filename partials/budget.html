@@ -60,7 +60,7 @@
 				<strong class="pull-right hidden-sm hidden-xs">&nbsp;<span class="glyphicon glyphicon-cog clickable" ng-click="editBudget(budget)"></span>&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
 				<strong class="pull-right"><span class="hidden-sm hidden-xs">{{budget.amount - budget.totalSpent | currency}} of {{budget.amount | currency}}</span><span class="visible-sm visible-xs">{{budget.amount - budget.totalSpent | currency}}</span></strong>
 			</div>
-			<div ng-if="budget.edit" class="edit well">
+			<div ng-if="budget.edit" class="edit">
 				<div class="form-group">
 					<input type="number" ng-model="budgetCopy.amount" class="form-control" />
 				</div>
