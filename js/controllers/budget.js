@@ -192,6 +192,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 		$scope.newExpense.date = date;
 		$scope.newExpense.user = user;
 		$scope.newExpense.category = cat;
+		delete $scope.newExpense.fakeDate;
 		Expenses.save($scope.newExpense, function(){
 			$scope.cancelExpense();
 			getExpenses();
@@ -220,6 +221,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 		date.iso = $scope.newIncome.date.toISOString();
 		$scope.newIncome.date = date;
 		$scope.newIncome.user = user;
+		delete $scope.newIncome.fakeDate;
 		Income.save($scope.newIncome, function(){
 			$scope.cancelIncome();
 			getIncome();
