@@ -20,6 +20,27 @@ angular.module("BudgetBuddy").factory("User", function($rootScope){
 				}
 			});
 		},
+		signUp: function(user, success, error) {
+			var that = this;
+			var pUser = new Parse.User();
+			pUser.set('username', user.email);
+			pUser.set('password', user.password);
+			pUser.set('email', user.email);
+
+			pUser.signUp(null, {
+				success: function (user) {
+					_user = user;
+					success(user);
+					$rootScope.$apply();
+				},
+				error: function (user,err) {
+					if (error) {
+						error(user,err);
+						$rootScope.$apply();
+					}
+				}
+			});
+		},
 		getCurrentUser: function() {
 			return Parse.User.current();
 		}

@@ -1,29 +1,70 @@
 <div class="col-md-4"></div>
 <div class="col-md-4">
-	<form class="form-horizontal" role="form" ng-submit="signIn()">
-		<div class="form-group">
-			<label for="user_email" class="col-sm-3 control-label">Email</label>
-			<div class="col-sm-9">
-				<input type="email" ng-model="user.email" class="form-control" id="user_email" placeholder="Email" autofocus />
+	<div ng-if="!model.signUp">
+		<form class="form-horizontal" role="form" ng-submit="signIn()">
+			<div class="form-group">
+				<label for="user_email" class="col-sm-3 control-label">Email</label>
+				<div class="col-sm-9">
+					<input type="email" ng-model="user.email" class="form-control" id="user_email" placeholder="Email" autofocus />
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="user_password" class="col-sm-3 control-label">Password</label>
-			<div class="col-sm-9">
-				<input type="password" ng-model="user.password" class="form-control" id="user_password" placeholder="Password" />
+			<div class="form-group">
+				<label for="user_password" class="col-sm-3 control-label">Password</label>
+				<div class="col-sm-9">
+					<input type="password" ng-model="user.password" class="form-control" id="user_password" placeholder="Password" />
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-3 col-sm-9">
-		    	<button type="submit" class="btn btn-default">Sign in</button>
-		    </div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-offset-3 col-sm-9">
-				<div class="alert alert-danger" ng-if="user.message && (!user.email || user.email.length == 0)">{{user.message}}</div>
-				<img class="loading center" ng-if="user.loading" src="img/loading.gif" />
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+			    	<button type="submit" class="btn btn-default">Sign in</button>
+			    </div>
 			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<div class="alert alert-danger" ng-if="user.message && (!user.email || user.email.length == 0)">{{user.message}}</div>
+					<img class="loading center" ng-if="user.loading" src="img/loading.gif" />
+				</div>
+			</div>
+		</form>
+		<div class="form-group">
+			<button class="btn btn-link" ng-click="toggleSignUp()">Create Account</button>
 		</div>
-	</form>
+	</div>
+	<div ng-if="model.signUp">
+		<form class="form-horizontal" role="form" ng-submit="signUp()">
+			<div class="form-group">
+				<label for="user_email" class="col-sm-3 control-label">Email</label>
+				<div class="col-sm-9">
+					<input type="email" ng-model="user.email" class="form-control" id="user_email" placeholder="Email" autofocus />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="user_password" class="col-sm-3 control-label">Password</label>
+				<div class="col-sm-9">
+					<input type="password" ng-model="user.password" class="form-control" id="user_password" placeholder="Password" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="user_password" class="col-sm-3 control-label">Verify Password</label>
+				<div class="col-sm-9">
+					<input type="password" ng-model="user.passwordVerify" class="form-control" id="user_password" placeholder="Password" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+			    	<button type="submit" class="btn btn-default" ng-disabled="user.password != user.passwordVerify || !user.email">Sign up</button>
+			    </div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-3 col-sm-9">
+					<div class="alert alert-danger" ng-if="user.message && (!user.email || user.email.length == 0)">{{user.message}}</div>
+					<img class="loading center" ng-if="user.loading" src="img/loading.gif" />
+				</div>
+			</div>
+		</form>
+		<div class="form-group">
+			<button class="btn btn-link" ng-click="toggleSignUp()">Sign in to existing account</button>
+		</div>
+	</div>
 </div>
 <div class="col-md-4"></div>
