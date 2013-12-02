@@ -121,6 +121,9 @@ body {
 .spacer {
   margin-bottom: 40px;
 }
+button.mobile-delete.visible-sm.visible-xs {
+  display: inline-block !important;
+}
 div.expenses-hold {
   padding-left: 0;
   padding-right: 0;
