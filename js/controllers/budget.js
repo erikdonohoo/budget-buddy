@@ -162,7 +162,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		});
 	}
 	$scope.deleteBudget = function(budg) {
-		if (confirm("Are you sure you want to delete this?")) {
+		if (confirm("Are you sure you want to delete this budget for " + $filter('categoryFilter')(budg.category, $scope.categories) + "?")) {
 			budg.$delete(function() {
 				updateBudgets();
 			});
@@ -186,7 +186,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		expense.date = new Date(stuff[0], stuff[1]-1, stuff[2]);
 	}
 	$scope.deleteExpense = function(expense) {
-		if (confirm("Are you sure you want to delete this?")) {
+		if (confirm("Are you sure you want to delete this expense? \n Amount: " + expense.amount +" \n Category: " + $filter('categoryFilter')(expense.category, $scope.categories) + "")) {
 			expense.$delete(function(){
 				getExpenses();
 				updateBudgets();
