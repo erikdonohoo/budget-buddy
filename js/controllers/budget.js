@@ -1,4 +1,4 @@
-angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $location, $routeParams, $scope, $filter, User, QuickBudget, DateHelp, Categories, Budgets, QuickExpense, Income, Expenses, QuickIncome, FilterHelper){
+angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $location, $routeParams, $scope, $filter, User, QuickBudget, DateHelp, Categories, Budgets, QuickExpense, Income, Expenses, QuickIncome, FilterHelper){
 	
 	// Start showing budgets
 	$scope.show = 'budgets';
@@ -35,6 +35,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 			$scope.incomeLastMonth += incomes[i].amount;
 		};
 	})
+	var catDefer = $q.defer();
+	$scope.categories = Categories.query(function(){
+		catDefer.resolve();
+	}); // Limit to unused categories
 
 	function getExpenses() {
 		month.totalSpent = 0;
@@ -43,8 +47,8 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 				var e = $scope.expenses[i];
 				month.totalSpent += e.amount;
 				(function(exp){
-					FilterHelper.defer.promise.then(function(){
-						exp.cat = $filter('categoryFilter')(exp.category);
+					catDefer.promise.then(function(){
+						exp.cat = $filter('categoryFilter')(exp.category, $scope.categories);
 						exp.easyDate = $filter('date')(exp.date.iso, 'mediumDate');
 					});
 				})(e)
@@ -105,7 +109,6 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	updateBudgets();
 
 	$scope.month = month;
-	$scope.categories = Categories.query(); // Limit to unused categories
 
 	$scope.totalExpenses = function(expenses) {
 		var total = 0;
@@ -114,7 +117,19 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 		};
 		return total;
 	}
+	$scope.addCategory = function() {
+		$scope.newCategory = {};
+	}
+	$scope.cancelCategory = function() {
+		$scope.newCategory = null;
+	}
+	$scope.saveCategory = function() {
 
+		Categories.save($scope.newCategory, function(){
+			$scope.categories = Categories.query();
+			$scope.cancelCategory();
+		})
+	}
 	$scope.addBudget = function() {
 		$scope.newBudget = {};
 	}
