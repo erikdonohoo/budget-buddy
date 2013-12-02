@@ -34,16 +34,6 @@
 				<button class="btn btn-warning" ng-click="cancelCategory()">Cancel</button>
 			</div>
 		</div>
-		<hr>
-		<div>
-			<h3 class="top">Income: {{month.totalIncome | currency}}</h3>
-			<h3 class="top">Carryover: {{incomeLastMonth - spentLastMonth | currency}}</h3>
-			<h3 class="top">Budgeted: {{month.totalBudgeted | currency}}</h3>
-			<h3 class="top">Remaining: {{month.totalIncome + (incomeLastMonth - spentLastMonth) - month.totalBudgeted | currency}}</h3>
-			<h3 class="top">Spendable: {{month.totalIncome + (incomeLastMonth - spentLastMonth) - month.totalSpent | currency}}</h3>
-		</div>
-	</div>
-	<div class="budgets col-sm-6">
 		<div class="budget new" ng-if="newBudget">
 			<div class="holder">
 				<div class="col-sm-12 inputs">
@@ -65,6 +55,16 @@
 				</div>
 			</div>
 		</div>
+		<hr>
+		<div>
+			<h3 class="top">Income: {{month.totalIncome | currency}}</h3>
+			<h3 class="top">Carryover: {{incomeLastMonth - spentLastMonth | currency}}</h3>
+			<h3 class="top">Budgeted: {{month.totalBudgeted | currency}}</h3>
+			<h3 class="top">Remaining: {{month.totalIncome + (incomeLastMonth - spentLastMonth) - month.totalBudgeted | currency}}</h3>
+			<h3 class="top">Spendable: {{month.totalIncome + (incomeLastMonth - spentLastMonth) - month.totalSpent | currency}}</h3>
+		</div>
+	</div>
+	<div class="budgets col-sm-6">
 		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-left="editBudget(budget)">
 			<div class="holder">
 				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
