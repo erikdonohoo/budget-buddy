@@ -1,5 +1,10 @@
 angular.module("BudgetBuddy").controller('LoginCtrl', function($scope, User, $location){
 	
+	// If alredy logged in, go to overview
+	if (User.getCurrentUser()) {
+		$location.path('/overview');
+	}
+	
 	$scope.user = {};
 	$scope.model = {};
 	$scope.model.signUp = false;
