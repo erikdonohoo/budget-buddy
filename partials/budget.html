@@ -57,12 +57,12 @@
 			<div class="holder">
 				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left category">{{budget.category | categoryFilter}}</strong>				
-				<strong class="pull-right hidden-sm hidden-xs">&nbsp;<span class="glyphicon glyphicon-cog clickable" ng-click="budget.edit = true"></span>&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
-				<strong class="pull-right"><span class="hidden-sm hidden-xs">{{budget.totalSpent | currency}} of {{budget.amount | currency}}</span><span class="visible-sm visible-xs">{{budget.amount - budget.totalSpent | currency}}</span></strong>
+				<strong class="pull-right hidden-sm hidden-xs">&nbsp;<span class="glyphicon glyphicon-cog clickable" ng-click="editBudget(budget)"></span>&nbsp;<span class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
+				<strong class="pull-right"><span class="hidden-sm hidden-xs">{{budget.amount - budget.totalSpent | currency}} of {{budget.amount | currency}}</span><span class="visible-sm visible-xs">{{budget.amount - budget.totalSpent | currency}}</span></strong>
 			</div>
 			<div ng-if="budget.edit" class="edit">
 				<div class="col-sm-6">
-					<input type="number" ng-model="budget.amount" class="form-control" />
+					<input type="number" ng-model="budgetCopy.amount" class="form-control" />
 				</div>
 				<button ng-click="updateBudget(budget)" class="btn btn-success col-sm-2">Update</button>
 				<button ng-click="budget.edit = false" class="btn btn-danger col-sm-offset-1 col-sm-2">Cancel</button>

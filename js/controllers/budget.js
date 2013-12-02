@@ -37,9 +37,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	})
 
 	function getExpenses() {
+		month.totalSpent = 0;
 		$scope.expenses = QuickExpense.forMonth($scope.now, null, function(){
 			for (var i = $scope.expenses.length - 1; i >= 0; i--) {
 				var e = $scope.expenses[i];
+				month.totalSpent += e.amount;
 				(function(exp){
 					FilterHelper.defer.promise.then(function(){
 						exp.cat = $filter('categoryFilter')(exp.category);
@@ -81,7 +83,6 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	function calculateBudgetedAmount() {
 
 		month.totalBudgeted = 0;
-		month.totalSpent = 0;
 		for (var i = thisMonth.length - 1; i >= 0; i--) {
 			var budget = thisMonth[i];
 			month.totalBudgeted += budget.amount;
@@ -94,7 +95,6 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 						var expense = b.expenses[i];
 						b.totalSpent += expense.amount;
 					};
-					month.totalSpent += b.totalSpent;
 					b.amountSpent = b.totalSpent / b.amount;
 					if (b.amountSpent > 1)
 						b.amountSpent = 1;
@@ -122,6 +122,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	}
 	$scope.cancelNewBudget = function() {
 		$scope.newBudget = null;
+	}
+	$scope.budgetCopy = {};
+	$scope.editBudget = function(budget) {
+		budget.edit = true;
+		$scope.budgetCopy = angular.copy(budget);
 	}
 	$scope.saveBudget = function() {
 		var user = {};
@@ -151,9 +156,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 		}
 	}
 	$scope.updateBudget = function(budget) {
+		budget = $scope.budgetCopy;
 		Budgets.update({objectId: budget.objectId, amount: budget.amount}, function(){
 			budget.edit = false;
-			calculateBudgetedAmount();
+			updateBudgets();
 		});
 	}
 	$scope.cancelExpense = function() {
