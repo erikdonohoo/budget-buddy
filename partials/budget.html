@@ -1,4 +1,4 @@
-<div class="container">
+<div class="col-sm-12">
 	<div class="col-sm-offset-2 col-sm-3">
 		<button ng-click="show = 'budgets'" class="btn btn-default btn-lg" ng-class="{active: show == 'budgets'}">Budgets</button>
 	</div>
@@ -6,8 +6,9 @@
 		<button ng-click="show = 'expenses'" class="btn btn-default btn-lg" ng-class="{active: show == 'expenses'}">Expenses</button>
 	</div>
 </div>
+<div class="clearfix"></div>
 <hr>
-<div class="container" ng-if="show == 'budgets'">
+<div class="col-sm-12" ng-if="show == 'budgets'">
 	<div class="budgets col-sm-6">
 		<div class="budget new" ng-if="newBudget">
 			<div class="holder">
@@ -45,12 +46,13 @@
 		</div>
 	</div>
 	<div class="col-sm-6 budgets">
-		<div class="container">
-			<button class="btn btn-primary col-sm-2" ng-click="addBudget()">+ Add Budget</button>
-			<div class="col-sm-2" ng-if="loading">
+		<div class="col-sm-12">
+			<button class="btn btn-primary col-sm-3" ng-click="addBudget()">+ Add Budget</button>
+			<div class="col-sm-3" ng-if="loading">
 				<img src="img/loading.gif" class="loading" />
 			</div>
 		</div>
+		<div class="clearfix"></div>
 		<hr>
 		<div class="col-sm-12">
 			<h3 class="top">Income: {{month.totalIncome | currency}}</h3>
@@ -60,7 +62,7 @@
 		</div>
 	</div>
 </div>
-<div class="container" ng-if="show == 'expenses'">
+<div class="col-sm-12" ng-if="show == 'expenses'">
 	<div class="col-sm-8 expenses">
 		<h3>Expenses</h3>
 		<div class="col-sm-12">
