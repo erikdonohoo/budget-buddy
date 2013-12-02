@@ -29,7 +29,7 @@
 				</div>
 			</div>
 		</div>
-		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget">
+		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-left="deleteBudget(budget)">
 			<div class="holder">
 				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left">{{budget.category | categoryFilter}}</strong>				
@@ -100,7 +100,7 @@
 		<div class="clearfix"></div>
 		<hr>
 		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}</h3>
-		<div class="expense col-sm-12" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId">
+		<div class="expense col-sm-12" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-left="deleteExpense(expense)">
 			<strong class="col-sm-2">{{expense.amount | currency}}</strong>
 			<span class="col-sm-4 hidden-sm hidden-xs">{{expense.description}}</span>
 			<span class="col-sm-6">

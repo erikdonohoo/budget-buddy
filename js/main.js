@@ -1,4 +1,4 @@
-var app = angular.module("BudgetBuddy", ['ngRoute', 'ngResource']);
+var app = angular.module("BudgetBuddy", ['ngRoute', 'ngResource', 'ngTouch']);
 app.value("URL", "https://api.parse.com/1/"); // Default URL
 
 // Resolution for logging in
