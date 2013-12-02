@@ -71,7 +71,7 @@
 	</div>
 </div>
 <div class="col-sm-12" ng-if="show == 'expenses'">
-	<div class="col-sm-8 expenses">
+	<div class="col-sm-8 expenses-hold">
 		<h3>Expenses</h3>
 		<div class="col-sm-12">
 			<div class="col-sm-8 form-group">
@@ -105,18 +105,18 @@
 		<div class="clearfix"></div>
 		<hr>
 		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}</h3>
-		<div class="expense col-sm-12" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-left="deleteExpense(expense)">
+		<div class="expense" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-left="deleteExpense(expense)">
 			<strong class="col-sm-2">{{expense.amount | currency}}</strong>
 			<span class="col-sm-4 hidden-sm hidden-xs">{{expense.description}}</span>
 			<span class="col-sm-6">
-				<span class="col-sm-5">{{expense.date.iso | date:'shortDate'}}</span> <span class="col-sm-5">{{expense.category | categoryFilter}}</span>
+				<span class="col-sm-5">{{expense.date.iso | date:'shortDate'}}</span> <br class="visible-sm visible-xs"><span class="col-sm-5">{{expense.category | categoryFilter}}</span>
 				<span class="clickable glyphicon glyphicon-trash hidden-sm hidden-xs col-sm-2" ng-click="deleteExpense(expense)"></span>
 			</span>
 			<div class="clearfix"></div>
 			<hr>
 		</div>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-4 expenses-hold">
 		<h3>Income <small class="pull-right" ng-click="addIncome()"><button class="btn btn-link">+ Add Income</button></small></h3>
 		<div class="well" ng-if="newIncome">
 			<div class="form-group">
@@ -133,7 +133,7 @@
 				<button class="btn btn-danger" ng-click="cancelIncome()">Cancel</button>
 			</div>
 		</div>
-		<div class="col-sm-12">
+		<div>
 			<div class="income" ng-repeat="income in incomes">
 				<strong class="col-sm-3">{{income.amount | currency}}</strong>
 				<strong class="col-sm-offset-2 col-sm-7">{{income.date.iso | date:'shortDate'}}<span ng-click="deleteIncome(income)" class="close">&times;</span></strong>
