@@ -72,19 +72,17 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($timeout, $locat
 	var thisMonth;
 	function updateBudgets() {
 
-		thisMonth = QuickBudget.forMonth($scope.now, function(budgets){
+		$scope.budgets = QuickBudget.forMonth($scope.now, function(budgets){
 			$scope.loading = false;
 			calculateBudgetedAmount();
 		});
-
-		$scope.budgets = thisMonth;
 	}
 
 	function calculateBudgetedAmount() {
 
 		month.totalBudgeted = 0;
-		for (var i = thisMonth.length - 1; i >= 0; i--) {
-			var budget = thisMonth[i];
+		for (var i = $scope.budgets.length - 1; i >= 0; i--) {
+			var budget = $scope.budgets[i];
 			month.totalBudgeted += budget.amount;
 
 			// How much money spent in this budget?
