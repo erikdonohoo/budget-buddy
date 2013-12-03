@@ -41,13 +41,17 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	}); // Limit to unused categories
 
 	function getIncome() {
-		month.totalIncome = 0;
 		$scope.incomes = QuickIncome.forMonth($scope.now, function(incomes) {
-			for (var i = incomes.length - 1; i >= 0; i--) {
-				var inc = incomes[i];
-				month.totalIncome += inc.amount;
-			};
+			calcIncome();
 		})
+	}
+
+	function calcIncome() {
+		month.totalIncome = 0;
+		for (var i = $scope.incomes.length - 1; i >= 0; i--) {
+			var inc = $scope.incomes[i];
+			month.totalIncome += inc.amount;
+		};
 	}
 
 	getIncome();
@@ -199,7 +203,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.deleteExpense = function(expense) {
 		if (confirm("Are you sure you want to delete this expense? \n Amount: " + expense.amount +" \n Category: " + $filter('categoryFilter')(expense.category, $scope.categories) + "")) {
 			expense.$delete(function(){
-				getExpenses();
+				$scope.expenses.splice($scope.expenses.indexOf(expense),1);
 				updateBudgets();
 			})
 		}
@@ -220,9 +224,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		$scope.newExpense.user = user;
 		$scope.newExpense.category = cat;
 		delete $scope.newExpense.fakeDate;
-		Expenses.save($scope.newExpense, function(){
+		Expenses.save($scope.newExpense, function(data, status, headers, config){
+			$scope.newExpense.objectId = data.objectId;
+			$scope.expenses.push($scope.newExpense);
 			$scope.cancelExpense();
-			getExpenses();
 			updateBudgets();
 		})
 	}
@@ -241,7 +246,8 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	}
 	$scope.deleteIncome = function(income) {
 		income.$delete(function(){
-			getIncome();
+			$scope.incomes.splice($scope.incomes.indexOf($scope.income),1);
+			calcIncome();
 			updateBudgets();
 		})
 	}
@@ -257,9 +263,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		$scope.newIncome.date = date;
 		$scope.newIncome.user = user;
 		delete $scope.newIncome.fakeDate;
-		Income.save($scope.newIncome, function(){
+		Income.save($scope.newIncome, function(data){
+			$scope.newIncome.objectId = data.objectId;
+			$scope.incomes.push($scope.newIncome);
 			$scope.cancelIncome();
-			getIncome();
+			calcIncome();
 			updateBudgets();
 		})
 	}
