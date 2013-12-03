@@ -12,6 +12,7 @@
 	<div class="clearfix"></div>
 </div>
 <div class="clearfix"></div>
+<h3 class="center" style="margin-top:10px;">{{now | date:'MMMM yyyy'}}</h3>
 <hr>
 <div ng-if="show == 'budgets'">
 	<div class="col-sm-6 budgets">
@@ -113,7 +114,7 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<button class="btn btn-primary" ng-disabled="!newExpense.description || !newExpense.amount || !newExpense.date || !newExpense.category.title || !validateDate(newExpense.date)" ng-click="saveExpense()">Save</button>
+				<button class="btn btn-primary" ng-disabled="!newExpense.description || !newExpense.amount || !newExpense.date || !newExpense.category.title" ng-click="saveExpense()">Save</button>
 				<button class="btn btn-danger" ng-click="cancelExpense()">Cancel</button>
 			</div>
 		</div>
@@ -144,7 +145,7 @@
 				<input type="date" min="{{firstDayOfMonth(now) | date:'yyyy-MM-dd'}}" max="{{lastDayOfMonth(now) | date:'yyyy-MM-dd'}}" ng-model="newIncome.fakeDate" class="form-control" ng-change="fixDate(newIncome)" placeholder="Date" />
 			</div>
 			<div class="form-group">
-				<button class="btn btn-primary" ng-disabled="!newIncome.description || !newIncome.amount || !newIncome.fakeDate || !validateDate(newIncome.date)" ng-click="saveIncome()">Save</button>
+				<button class="btn btn-primary" ng-disabled="!newIncome.description || !newIncome.amount || !newIncome.fakeDate" ng-click="saveIncome()">Save</button>
 				<button class="btn btn-danger" ng-click="cancelIncome()">Cancel</button>
 			</div>
 		</div>
