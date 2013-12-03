@@ -1,7 +1,7 @@
 angular.module("BudgetBuddy").factory("Income", function($resource, URL) {
-	return $resource(URL + 'classes/Income/:id', 
+	return $resource(URL + 'classes/Income/:objectId', 
 	{
-		'id': '@objectId'
+		'objectId': '@objectId'
 	},
 	{
 		'query': {
