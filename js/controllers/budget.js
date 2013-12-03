@@ -225,6 +225,12 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			updateBudgets();
 		})
 	}
+	$scope.validateDate = function(date) {
+		// Is date between start and end date of month?
+		var start = DateHelp.getFirstDayOfMonth($scope.now).getTime();
+		var end = DateHelp.getLastDayOfMonth($scope.now).getTime();
+		return (start <= date.getTime() && date.getTime() <= end);
+	}
 	$scope.addIncome = function() {
 		$scope.newIncome = {};
 		$scope.newIncome.fakeDate = $filter('date')($scope.now, 'yyyy-MM-dd');
