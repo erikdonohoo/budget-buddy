@@ -51,15 +51,20 @@ body {
   margin-top: 10px;
 }
 .budget {
-  min-height: 45px;
+  min-height: 55px;
   margin: 0 0 10px 0;
   width: 100%;
   border: 1px solid black;
   border-radius: 5px;
+  -webkit-transition: height 0.5s ease-out;
+  -moz-transition: height 0.5s ease-out;
+  -ms-transition: height 0.5s ease-out;
+  -o-transition: height 0.5s ease-out;
+  transition: height 0.5s ease-out;
 }
 .budget strong {
   font-size: 18px;
-  line-height: 45px;
+  line-height: 55px;
   position: relative;
 }
 .budget .edit {

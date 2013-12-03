@@ -57,12 +57,17 @@ html, body {
 
 .budget {
 
-	@height:45px;
+	@height:55px;
 	min-height:@height;
 	margin:0 0 10px 0;
 	width:100%;
 	border:1px solid black;
 	border-radius:5px;
+	-webkit-transition: height 0.5s ease-out;
+	   -moz-transition: height 0.5s ease-out;
+	    -ms-transition: height 0.5s ease-out;
+	     -o-transition: height 0.5s ease-out;
+	        transition: height 0.5s ease-out;
 
 	strong {
 		font-size:18px;

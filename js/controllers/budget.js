@@ -205,6 +205,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		}
 	}
 	$scope.saveExpense = function() {
+		$scope.fixDate($scope.newExpense);
 		var user = {};
 		var cat = {};
 		var date = {};
@@ -245,6 +246,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		})
 	}
 	$scope.saveIncome = function() {
+		$scope.fixDate($scope.newIncome);
 		var user = {};
 		var date = {};
 		user['__type'] = "Pointer";
