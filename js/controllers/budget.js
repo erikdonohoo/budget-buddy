@@ -40,24 +40,6 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		catDefer.resolve();
 	}); // Limit to unused categories
 
-	function getExpenses() {
-		month.totalSpent = 0;
-		$scope.expenses = QuickExpense.forMonth($scope.now, null, function(){
-			for (var i = $scope.expenses.length - 1; i >= 0; i--) {
-				var e = $scope.expenses[i];
-				month.totalSpent += e.amount;
-				(function(exp){
-					catDefer.promise.then(function(){
-						exp.cat = $filter('categoryFilter')(exp.category, $scope.categories);
-						exp.easyDate = $filter('date')(exp.date.iso, 'mediumDate');
-					});
-				})(e)
-			};
-		});
-	}
-
-	getExpenses();
-
 	function getIncome() {
 		month.totalIncome = 0;
 		$scope.incomes = QuickIncome.forMonth($scope.now, function(incomes) {
@@ -87,26 +69,44 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		month.totalBudgeted = 0;
 		for (var i = $scope.budgets.length - 1; i >= 0; i--) {
 			var budget = $scope.budgets[i];
+			budget.totalSpent = 0;
 			month.totalBudgeted += budget.amount;
 
 			// How much money spent in this budget?
-			(function(b){
-				b.expenses = QuickExpense.forMonth($scope.now, b.category, function(){
-					b.totalSpent = 0;
-					for (var i = b.expenses.length - 1; i >= 0; i--) {
-						var expense = b.expenses[i];
-						b.totalSpent += expense.amount;
-					};
-					b.amountSpent = b.totalSpent / b.amount;
-					if (b.amountSpent > 1)
-						b.amountSpent = 1;
-					b.amountSpent *= 100;
-				});
-			})(budget);
+			for (var j = $scope.expenses.length - 1; j >= 0; j--) {
+				var expense = $scope.expenses[j];
+				if (expense.category.objectId == budget.category.objectId) {
+					budget.totalSpent += expense.amount;
+				}
+			};
+
+			budget.amountSpent = budget.totalSpent / budget.amount;
+			if (budget.amountSpent > 1)
+				budget.amountSpent = 1;
+			budget.amountSpent *= 100;
 		};
 	}
 
-	updateBudgets();
+	function getExpenses() {
+		month.totalSpent = 0;
+		$scope.expenses = QuickExpense.forMonth($scope.now, null, function(){
+			for (var i = $scope.expenses.length - 1; i >= 0; i--) {
+				var e = $scope.expenses[i];
+				month.totalSpent += e.amount;
+				(function(exp){
+					catDefer.promise.then(function(){
+						exp.cat = $filter('categoryFilter')(exp.category, $scope.categories);
+						exp.easyDate = $filter('date')(exp.date.iso, 'mediumDate');
+					});
+				})(e)
+			};
+
+			if (!$scope.budgets)
+				updateBudgets();
+		});
+	}
+
+	getExpenses();
 
 	$scope.month = month;
 
@@ -211,7 +211,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		Expenses.save($scope.newExpense, function(){
 			$scope.cancelExpense();
 			getExpenses();
-			$timeout(function(){calculateBudgetedAmount();});
+			updateBudgets();
 		})
 	}
 	$scope.addIncome = function() {
@@ -223,7 +223,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.deleteIncome = function(income) {
 		income.$delete(function(){
 			getIncome();
-			calculateBudgetedAmount();
+			updateBudgets();
 		})
 	}
 	$scope.saveIncome = function() {
@@ -240,7 +240,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		Income.save($scope.newIncome, function(){
 			$scope.cancelIncome();
 			getIncome();
-			$timeout(function(){calculateBudgetedAmount();});
+			updateBudgets();
 		})
 	}
 });
