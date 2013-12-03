@@ -36,7 +36,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		};
 	})
 	var catDefer = $q.defer();
-	$scope.categories = Categories.query(function(){
+	var catQuery = {};
+	catQuery.user = {};
+	catQuery.user['__type'] = 'Pointer'; catQuery.user.className = '_User'; catQuery.user.objectId = User.getCurrentUser().id;
+	$scope.categories = Categories.query({'where': JSON.stringify(catQuery)}, function(){
 		catDefer.resolve();
 	}); // Limit to unused categories
 
@@ -138,9 +141,9 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		$scope.newCategory = null;
 	}
 	$scope.saveCategory = function() {
-
+		$scope.newCategory.user = catQuery.user;
 		Categories.save($scope.newCategory, function(){
-			$scope.categories = Categories.query();
+			$scope.categories = Categories.query({'where': JSON.stringify(catQuery)});
 			$scope.cancelCategory();
 		})
 	}
