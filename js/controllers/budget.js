@@ -191,6 +191,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.addExpense = function() {
 		$scope.newExpense = {};
 		$scope.newExpense.fakeDate = $filter('date')($scope.now, 'yyyy-MM-dd');
+		$scope.newExpense.date = $scope.fixDate($scope.newExpense);
 	}
 	$scope.fixDate = function(expense) {
 		var stuff = expense.fakeDate.split("-");
@@ -235,6 +236,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.addIncome = function() {
 		$scope.newIncome = {};
 		$scope.newIncome.fakeDate = $filter('date')($scope.now, 'yyyy-MM-dd');
+		$scope.newIncome.date = $scope.fixDate($scope.newIncome)
 	}
 	$scope.cancelIncome = function() {
 		$scope.newIncome = null;
