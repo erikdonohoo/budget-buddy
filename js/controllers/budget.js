@@ -56,16 +56,26 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	// Get budgets
 	$scope.loading = true;
 	var thisMonth;
-	function updateBudgets() {
+	function updateBudgets(animate) {
 
 		$scope.budgets = QuickBudget.forMonth($scope.now, function(budgets){
 			$scope.loading = false;
-			calculateBudgetedAmount();
+			calculateBudgetedAmount(animate);
 		});
 	}
 
-	function calculateBudgetedAmount() {
+	function calculateBudgetedAmount(animate) {
 
+		
+		if (animate) {
+			$timeout(doCalculate, 50);
+		} else {
+			doCalculate();
+		}
+		
+	}
+
+	function doCalculate() {
 		month.totalBudgeted = 0;
 		for (var i = $scope.budgets.length - 1; i >= 0; i--) {
 			var budget = $scope.budgets[i];
@@ -102,7 +112,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			};
 
 			if (!$scope.budgets)
-				updateBudgets();
+				updateBudgets(true);
 		});
 	}
 
@@ -169,10 +179,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		}
 	}
 	$scope.updateBudget = function(budget) {
-		budget = $scope.budgetCopy;
+		budget.amount = $scope.budgetCopy.amount;
 		Budgets.update({objectId: budget.objectId, amount: budget.amount}, function(){
 			budget.edit = false;
-			updateBudgets();
+			doCalculate();
 		});
 	}
 	$scope.cancelExpense = function() {
