@@ -176,6 +176,16 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			})
 		});
 	}
+	$scope.showBudgetExpenses = function(budget) {
+		budget.showExpenses = true;
+		budget.expenses = [];
+		for (var i = $scope.expenses.length - 1; i >= 0; i--) {
+			var exp = $scope.expenses[i];
+			if (exp.category.objectId == budget.category.objectId) {
+				budget.expenses.push(exp);
+			}
+		};
+	}
 	$scope.deleteBudget = function(budg) {
 		if (confirm("Are you sure you want to delete this budget for " + $filter('categoryFilter')(budg.category, $scope.categories) + "?")) {
 			budg.$delete(function() {

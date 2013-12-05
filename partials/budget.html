@@ -66,7 +66,7 @@
 		</div>
 	</div>
 	<div class="budgets col-sm-6">
-		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-left="editBudget(budget)">
+		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-left="editBudget(budget)" ng-swipe-right="showBudgetExpenses(budget)">
 			<div class="holder">
 				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left category">{{budget.category | categoryFilter:categories}}</strong>				
@@ -83,6 +83,22 @@
 					<button ng-click="deleteBudget(budget)" class="mobile-delete btn btn-danger visible-sm visible-xs"><span class="glyphicon glyphicon-trash"></span></button>
 				</div>
 			</div>
+			<div ng-if="budget.showExpenses">
+				<div ng-repeat="expense in budget.expenses | orderBy:'date.iso':true" class="padding">
+					<div>
+						<span><strong>{{expense.amount | currency}}</strong>&nbsp;&nbsp;<span>{{expense.date.iso | date:'shortDate'}}</span></span>
+						<div class="clearfix"></div>
+					</div>
+
+					<div>
+						{{expense.description}}
+					</div>
+					<hr>
+				</div>
+				<div class="form-group padding">
+					<button ng-click="budget.showExpenses = false" class="btn btn-warning">Close</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -91,7 +107,7 @@
 		<h3>Expenses</h3>
 		<div class="col-sm-12">
 			<div class="col-sm-8 form-group">
-				<input type="text" placeholder="search" class="form-control" ng-model="search" />
+				<input type="search" placeholder="search" class="form-control" ng-model="search" />
 			</div>
 			<div class="form-group col-sm-2">
 				<button class="btn btn-primary" ng-click="addExpense()">+ Add Expense</button>
