@@ -122,6 +122,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 
 	getExpenses();
 
+	$scope.toggleCatFilter = function() {
+		if (!$scope.month.filterByCategory)
+			$scope.month.selectedCategory = null;
+	}
 	$scope.totalExpenses = function(expenses) {
 		var total = 0;
 		for (var i = expenses.length - 1; i >= 0; i--) {

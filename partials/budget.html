@@ -106,11 +106,18 @@
 	<div class="col-sm-8 expenses-hold">
 		<h3>Expenses</h3>
 		<div class="col-sm-12">
-			<div class="col-sm-8 form-group">
+			<div class="form-group">
 				<input type="search" placeholder="search" class="form-control" ng-model="search" />
+				<select ng-if="month.filterByCategory" ng-options="category.title for category in categories | orderBy:'title'" ng-model="month.selectedCategory" class="form-control">
+					<option value="" style="display:none;">--Select A Category--</option>
+				</select>
+				<input type="checkbox" ng-model="month.filterByCategory" ng-change="toggleCatFilter()" /> Filter By Category
 			</div>
-			<div class="form-group col-sm-2">
+			<div class="form-group">
 				<button class="btn btn-primary" ng-click="addExpense()">+ Add Expense</button>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-default visible-sm visible-xs" ng-init="month.showExpenses = true" ng-click="month.showExpenses = !month.showExpenses">Show/Hide Expenses</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -137,7 +144,7 @@
 		<div class="clearfix"></div>
 		<hr>
 		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}</h3>
-		<div class="expense" ng-repeat="expense in expenses | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-left="deleteExpense(expense)">
+		<div class="expense" ng-repeat="expense in expenses | categorySearch:month.selectedCategory | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-left="deleteExpense(expense)" ng-show="month.showExpenses">
 			<strong class="col-sm-2">{{expense.amount | currency}}</strong>
 			<span class="col-sm-4 hidden-sm hidden-xs">{{expense.description}}</span>
 			<span class="col-sm-6">
@@ -147,8 +154,11 @@
 			<div class="clearfix"></div>
 			<hr>
 		</div>
+		<div ng-if="(expenses | categorySearch:month.selectedCategory | objectFilter:search).length == 0">
+			<h3>No Expenses Found</h3>
+		</div>
 	</div>
-	<div class="col-sm-4 expenses-hold">
+	<div class="col-sm-4 expenses-hold"  ng-if="(expenses | categorySearch:month.selectedCategory | objectFilter:search).length != 0">
 		<h3>Income <small class="pull-right" ng-click="addIncome()"><button class="btn btn-link">+ Add Income</button></small></h3>
 		<div class="well" ng-if="newIncome">
 			<div class="form-group">
