@@ -291,4 +291,32 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			})
 		})
 	}
+
+	$scope.modifiedExpense = {};
+	$scope.editExpense = function(expense) {
+		expense.edit = true;
+		expense.fakeDate = $filter('date')(expense.date.iso, 'yyyy-MM-dd');
+		expense.chosenCategory = $filter('categoryMatch')(expense.category, $scope.categories);
+		console.log(expense);
+		$scope.modifiedExpense = angular.copy(expense);
+	}
+	$scope.cancelEditExpense = function(expense) {
+		expense.edit = false;
+		$scope.modifiedExpense = {};
+	}
+	$scope.updateExpense = function(expense) {
+		var cat = {}, copy = $scope.modifiedExpense;
+		cat.objectId = copy.chosenCategory;
+		cat.className = 'Category';
+		cat['__type'] = 'Pointer';
+		delete copy.chosenCategory;
+		delete copy.edit;
+		delete copy.fakeDate;
+		expense.saving = true;
+		Expenses.update($scope.modifiedExpense,function(){
+			expense.$get(function(){
+				doCalculate();
+			});
+		});
+	}
 });

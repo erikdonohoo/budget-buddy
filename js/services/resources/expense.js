@@ -8,6 +8,9 @@ angular.module("BudgetBuddy").factory("Expenses", function($resource, URL) {
 			'method': 'GET',
 			'isArray': true,
 			'transformResponse': function (data) { return angular.fromJson(data).results; }
+		},
+		'update': {
+			'method': 'PUT'
 		}
 	})
 })
