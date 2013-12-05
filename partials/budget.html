@@ -66,7 +66,7 @@
 		</div>
 	</div>
 	<div class="budgets col-sm-6">
-		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-left="editBudget(budget)" ng-swipe-right="showBudgetExpenses(budget)">
+		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-right="editBudget(budget)" ng-swipe-left="showBudgetExpenses(budget)">
 			<div class="holder">
 				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left category">{{budget.category | categoryFilter:categories}}</strong>				
@@ -144,7 +144,7 @@
 		<div class="clearfix"></div>
 		<hr>
 		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}</h3>
-		<div class="expense" ng-repeat="expense in expenses | categorySearch:month.selectedCategory | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-left="editExpense(expense)" ng-show="month.showExpenses">
+		<div class="expense" ng-repeat="expense in expenses | categorySearch:month.selectedCategory | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-right="editExpense(expense)" ng-show="month.showExpenses">
 			<div class="hidden-sm hidden-xs">
 				<strong class="col-sm-2">{{expense.amount | currency}}</strong>
 				<span class="col-sm-4">{{expense.description}}</span>
