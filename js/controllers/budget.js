@@ -97,8 +97,6 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			};
 
 			budget.amountSpent = budget.totalSpent / budget.amount;
-			if (budget.amountSpent > 1)
-				budget.amountSpent = 1;
 			budget.amountSpent *= 100;
 		};
 	}
@@ -305,10 +303,14 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		$scope.modifiedExpense = {};
 	}
 	$scope.updateExpense = function(expense) {
-		var cat = {}, copy = $scope.modifiedExpense;
+		var cat = {}, copy = $scope.modifiedExpense, date = {};
+		$scope.fixDate(copy);
 		cat.objectId = copy.chosenCategory;
 		cat.className = 'Category';
 		cat['__type'] = 'Pointer';
+		date['__type'] = 'Date';
+		date.iso = copy.date;
+		copy.date = date;
 		delete copy.chosenCategory;
 		delete copy.edit;
 		delete copy.fakeDate;
