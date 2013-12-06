@@ -107,7 +107,10 @@
 		<h3>Expenses</h3>
 		<div class="col-sm-12">
 			<div class="form-group">
-				<input type="text" placeholder="search" class="form-control" ng-model="search" />
+				<div class="input-group">
+					<input type="text" placeholder="search" class="form-control" ng-model="search" />
+					<span class="input-group-addon clickable" ng-click="search = ''">&times;</span>
+				</div>
 			</div>
 			<div class="form-group">
 				<select ng-if="month.filterByCategory" ng-options="category.title for category in categories | orderBy:'title'" ng-model="month.selectedCategory" class="form-control">
@@ -130,7 +133,10 @@
 				<input type="text" ng-model="newExpense.description" class="form-control" placeholder="Description" />
 			</div>
 			<div class="form-group">
-				<input type="number" ng-model="newExpense.amount" class="form-control" placeholder="Amount" />
+				<div class="input-group">
+					<span class="input-group-addon">$</span>
+					<input type="number" ng-model="newExpense.amount" class="form-control" placeholder="Amount" />
+				</div>
 			</div>
 			<div class="form-group">
 				<input type="date" min="{{firstDayOfMonth(now) | date:'yyyy-MM-dd'}}" max="{{lastDayOfMonth(now) | date:'yyyy-MM-dd'}}" ng-model="newExpense.fakeDate" ng-change="fixDate(newExpense)" class="form-control" placeholder="Date" />
@@ -147,7 +153,7 @@
 		</div>
 		<div class="clearfix"></div>
 		<hr>
-		<h3>Total Spent: {{totalExpenses((expenses | objectFilter:search)) | currency}}</h3>
+		<h3>Total Spent: {{totalExpenses((expenses | categorySearch:month.selectedCategory | objectFilter:search)) | currency}}</h3>
 		<div class="expense" ng-repeat="expense in expenses | categorySearch:month.selectedCategory | objectFilter:search | orderBy:'date.iso':true track by expense.objectId" ng-swipe-right="editExpense(expense)" ng-show="month.showExpenses">
 			<div class="hidden-sm hidden-xs">
 				<strong class="col-sm-2">{{expense.amount | currency}}</strong>
@@ -173,7 +179,10 @@
 					<input type="text" ng-model="modifiedExpense.description" class="form-control" placeholder="Description" />
 				</div>
 				<div class="form-group">
-					<input type="number" ng-model="modifiedExpense.amount" class="form-control" placeholder="Amount" />
+					<div class="input-group">
+						<span class="input-group-addon">&times;</span>
+						<input type="number" ng-model="modifiedExpense.amount" class="form-control" placeholder="Amount" />
+					</div>
 				</div>
 				<div class="form-group">
 					<input type="date" min="{{firstDayOfMonth(now) | date:'yyyy-MM-dd'}}" max="{{lastDayOfMonth(now) | date:'yyyy-MM-dd'}}" ng-model="modifiedExpense.fakeDate" ng-change="fixDate(modifiedExpense)" class="form-control" placeholder="Date" />

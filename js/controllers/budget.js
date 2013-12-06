@@ -107,10 +107,8 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			for (var i = $scope.expenses.length - 1; i >= 0; i--) {
 				var e = $scope.expenses[i];
 				$scope.month.totalSpent += e.amount;
-				catDefer.promise.then(function(){
-					e.cat = $filter('categoryFilter')(e.category, $scope.categories);
-					e.easyDate = $filter('date')(e.date.iso, 'mediumDate');
-				});
+				e.cat = $filter('categoryFilter')(e.category, $scope.categories);
+				e.easyDate = $filter('date')(e.date.iso, 'mediumDate');
 			};
 
 			if (!$scope.budgets)
@@ -118,7 +116,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		});
 	}
 
-	getExpenses();
+	catDefer.promise.then(function(){ getExpenses(); });
 
 	$scope.toggleCatFilter = function() {
 		if (!$scope.month.filterByCategory)
@@ -241,6 +239,8 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		delete $scope.newExpense.fakeDate;
 		Expenses.save($scope.newExpense, function(data){
 			$scope.newExpense = Expenses.get({objectId: data.objectId}, function(){
+				$scope.newExpense.cat = $filter('categoryFilter')(e.category, $scope.categories);
+				$scope.newExpense.easyDate = $filter('date')(e.date.iso, 'mediumDate');
 				$scope.expenses.push($scope.newExpense);
 				$scope.month.totalSpent += $scope.newExpense.amount;
 				$scope.cancelExpense();
@@ -317,6 +317,8 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		expense.saving = true;
 		Expenses.update($scope.modifiedExpense,function(){
 			expense.$get(function(){
+				expense.cat = $filter('categoryFilter')(e.category, $scope.categories);
+				expense.easyDate = $filter('date')(e.date.iso, 'mediumDate');
 				doCalculate();
 			});
 		});
