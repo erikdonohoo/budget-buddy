@@ -237,8 +237,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		$scope.newExpense.user = user;
 		$scope.newExpense.category = cat;
 		delete $scope.newExpense.fakeDate;
+		$scope.newExpense.saving = true;
 		Expenses.save($scope.newExpense, function(data){
-			$scope.newExpense = Expenses.get({objectId: data.objectId}, function(){
+			Expenses.get({objectId: data.objectId}, function(data){
+				$scope.newExpense = data;
 				$scope.newExpense.cat = $filter('categoryFilter')($scope.newExpense.category, $scope.categories);
 				$scope.newExpense.easyDate = $filter('date')($scope.newExpense.date.iso, 'mediumDate');
 				$scope.expenses.push($scope.newExpense);

@@ -40,6 +40,9 @@ html, body {
 .padding {
 	padding: 0 10px;
 }
+.padding.margin {
+	margin:8px 0;
+}
 
 .expense {
 	min-height:20px;
@@ -76,7 +79,7 @@ html, body {
 	     -o-transition: height 0.5s ease-out;
 	        transition: height 0.5s ease-out;
 
-	strong {
+	.holder > strong {
 		font-size:18px;
 		line-height:@height;
 		position:relative;
@@ -123,6 +126,12 @@ html, body {
 			}
 		}
 
+	}
+
+	.expense {
+		hr {
+			margin:8px 0;
+		}
 	}
 
 	> * {

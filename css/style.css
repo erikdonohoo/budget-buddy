@@ -35,6 +35,9 @@ body {
 .padding {
   padding: 0 10px;
 }
+.padding.margin {
+  margin: 8px 0;
+}
 .expense {
   min-height: 20px;
 }
@@ -69,7 +72,7 @@ body {
   -o-transition: height 0.5s ease-out;
   transition: height 0.5s ease-out;
 }
-.budget strong {
+.budget .holder > strong {
   font-size: 18px;
   line-height: 55px;
   position: relative;
@@ -114,6 +117,9 @@ body {
 }
 .budget .holder .budget-spent.blue {
   background: #7fd4fc;
+}
+.budget .expense hr {
+  margin: 8px 0;
 }
 .budget > * {
   min-height: inherit;
