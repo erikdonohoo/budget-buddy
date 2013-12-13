@@ -74,7 +74,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 
 		
 		if (animate) {
-			$timeout(doCalculate, 50);
+			$timeout(doCalculate, 20);
 		} else {
 			doCalculate();
 		}
@@ -91,12 +91,14 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			// How much money spent in this budget?
 			for (var j = $scope.expenses.length - 1; j >= 0; j--) {
 				var expense = $scope.expenses[j];
-				if (expense.category.objectId == budget.category.objectId) {
+				if (expense.category.objectId === budget.category.objectId) {
 					budget.totalSpent += expense.amount;
 				}
 			};
 
 			budget.amountSpent = budget.totalSpent / budget.amount;
+			if (budget.amountSpent > 0.999)
+				budget.amountSpent = 1;
 			budget.amountSpent *= 100;
 		};
 	}
@@ -116,7 +118,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		});
 	}
 
-	catDefer.promise.then(function(){ getExpenses(); });
+	catDefer.promise.then(getExpenses);
 
 	$scope.toggleCatFilter = function() {
 		if (!$scope.month.filterByCategory)
@@ -299,6 +301,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		expense.chosenCategory = $filter('categoryMatch')(expense.category, $scope.categories);
 		console.log(expense);
 		$scope.modifiedExpense = angular.copy(expense);
+		$scope.modifiedExpense.saving = false;
 	}
 	$scope.cancelEditExpense = function(expense) {
 		expense.edit = false;
@@ -316,7 +319,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		delete copy.chosenCategory;
 		delete copy.edit;
 		delete copy.fakeDate;
-		expense.saving = true;
+		copy.saving = true;
 		Expenses.update($scope.modifiedExpense,function(){
 			expense.$get(function(){
 				expense.cat = $filter('categoryFilter')(expense.category, $scope.categories);
