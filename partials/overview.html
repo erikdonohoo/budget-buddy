@@ -12,4 +12,8 @@
 		<h3 class="center budget-title">{{nMonth | date:'MMMM yyyy'}}</h3>
 		<a href="#/budgets/nextmonth"><img src="img/calendar.jpg" class="calendar clickable img-responsive" /></a>
 	</div>
+	<div class="col-sm-12">
+		<h3>Choose a month...</h3>
+		<input type="date" ng-model="model.dateString" ng-change="visitBudget()" class="form-control" placeholder="Date" />
+	</div>
 </div>

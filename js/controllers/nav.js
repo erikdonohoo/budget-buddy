@@ -1,6 +1,9 @@
-angular.module("BudgetBuddy").controller('NavCtrl', function($scope, User, $location) {
+angular.module("BudgetBuddy").controller('NavCtrl', function($scope, User, $location, DateHelp) {
 
 	$scope.$location = $location;
+	$scope.lMonth = DateHelp.getFirstDayOfPreviousMonth();
+	$scope.now = new Date();
+	$scope.nMonth = DateHelp.getFirstDayOfNextMonth();
 	$scope.$watch('$location.path()', function(newVal) {
 		$scope.path = newVal;
 	})

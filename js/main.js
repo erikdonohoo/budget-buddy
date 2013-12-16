@@ -36,6 +36,11 @@ app.config(function($routeProvider, $httpProvider) {
 			controller: "BudgetCtrl",
 			resolve: loggedIn
 		})
+		.when('/budgets/choose/:date', {
+			templateUrl: 'partials/budget.html',
+			controller: "BudgetCtrl",
+			resolve: loggedIn
+		})
 		.otherwise({redirectTo: '/'});
 
 	// Set headers

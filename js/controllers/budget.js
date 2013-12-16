@@ -3,6 +3,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	// Start showing budgets
 	$scope.show = 'budgets';
 
+	$scope.fixDate = function(expense) {
+		var stuff = expense.fakeDate.split("-");
+		expense.date = new Date(stuff[0], stuff[1]-1, stuff[2]);
+	}
+
 	// Figure out month
 	if ($routeParams.page == 'thismonth') {
 		$scope.now = new Date();
@@ -10,6 +15,11 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		$scope.now = DateHelp.getFirstDayOfPreviousMonth();
 	} else if ($routeParams.page == 'nextmonth') {
 		$scope.now = DateHelp.getFirstDayOfNextMonth();
+	} else if ($routeParams.date) {
+		var obj = {};
+		obj.fakeDate = $routeParams.date;
+		$scope.fixDate(obj);
+		$scope.now = obj.date;
 	} else {
 		$location.path('/overview');
 	}
@@ -22,17 +32,16 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.lastDayOfMonth = DateHelp.getLastDayOfMonth;
 
 	// Determine carryover
-	var lastMonth = DateHelp.getFirstDayOfLastMonthWithDate($scope.now);
-	QuickExpense.forMonth(lastMonth, null, function(expenses) {
-		$scope.spentLastMonth = 0;
+	QuickExpense.beforeMonth(DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth($scope.now)), null, function(expenses) {
+		$scope.spentBefore = 0;
 		for (var i = expenses.length - 1; i >= 0; i--) {
-			$scope.spentLastMonth += expenses[i].amount;
+			$scope.spentBefore += expenses[i].amount;
 		};
 	});
-	QuickIncome.forMonth(lastMonth, function(incomes) {
-		$scope.incomeLastMonth = 0;
+	QuickIncome.beforeMonth(DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth($scope.now)), function(incomes) {
+		$scope.incomeBefore = 0;
 		for (var i = incomes.length - 1; i >= 0; i--) {
-			$scope.incomeLastMonth += incomes[i].amount;
+			$scope.incomeBefore += incomes[i].amount;
 		};
 	})
 	var catDefer = $q.defer();
@@ -197,7 +206,8 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	}
 	$scope.updateBudget = function(budget) {
 		budget.amount = $scope.budgetCopy.amount;
-		Budgets.update({objectId: budget.objectId, amount: budget.amount}, function(){
+		budget.description = $scope.budgetCopy.description;
+		Budgets.update({objectId: budget.objectId, amount: budget.amount, description: budget.description}, function(){
 			budget.edit = false;
 			doCalculate();
 		});
@@ -208,10 +218,6 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.addExpense = function() {
 		$scope.newExpense = {};
 		$scope.newExpense.fakeDate = $filter('date')($scope.now, 'yyyy-MM-dd');
-	}
-	$scope.fixDate = function(expense) {
-		var stuff = expense.fakeDate.split("-");
-		expense.date = new Date(stuff[0], stuff[1]-1, stuff[2]);
 	}
 	$scope.deleteExpense = function(expense) {
 		var amount = expense.amount;

@@ -1,11 +1,14 @@
-angular.module("BudgetBuddy").controller('OverviewCtrl', function($scope, QuickBudget, DateHelp){
+angular.module("BudgetBuddy").controller('OverviewCtrl', function($scope, $location, DateHelp){
 	
-	// Get budgets
-	var thisMonth = QuickBudget.thisMonth();
-	var lastMonth = QuickBudget.lastMonth();
-	var nextMonth = QuickBudget.nextMonth();
-
 	$scope.lMonth = DateHelp.getFirstDayOfPreviousMonth();
 	$scope.now = new Date();
 	$scope.nMonth = DateHelp.getFirstDayOfNextMonth();
+
+	var model = {};
+	$scope.visitBudget = function() {
+		$location.path('/budgets/choose/' + model.dateString);
+	}
+
+	$scope.model = model;
+
 });

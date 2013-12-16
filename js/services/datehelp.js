@@ -1,8 +1,8 @@
 angular.module("BudgetBuddy").factory('DateHelp', function() {
 
 	return {
-		getFirstDayOfPreviousMonth: function() {
-			var date = new Date();
+		getFirstDayOfPreviousMonth: function(d) {
+			var date = d || new Date();
     		return new Date(date.getFullYear(), date.getMonth() - 1, 1);
 		},
 		getFirstDayOfLastMonthWithDate: function(date) {
