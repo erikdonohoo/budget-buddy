@@ -91,10 +91,10 @@
 			</div>
 			<div ng-if="budget.showExpenses">
 				<div class="form-group padding margin">
-					<button ng-click="budget.showExpenses = false" class="btn btn-warning">Close</button>
+					<h4>{{budget.description}}</h4>
 				</div>
 				<div class="form-group padding margin">
-					<h4>{{budget.description}}</h4>
+					<button ng-click="budget.showExpenses = false" class="btn btn-warning">Close</button>
 				</div>
 				<div ng-repeat="expense in budget.expenses | orderBy:'date.iso':true" class="padding expense">
 					<div>
