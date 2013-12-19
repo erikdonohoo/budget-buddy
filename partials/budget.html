@@ -71,7 +71,7 @@
 	<div class="budgets col-sm-6">
 		<div ng-repeat="budget in budgets | orderBy:'amount':true track by budget.objectId" class="budget" ng-swipe-right="editBudget(budget)" ng-swipe-left="showBudgetExpenses(budget)">
 			<div class="holder">
-				<div class="budget-spent" style="width:{{budget.amountSpent}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
+				<div class="budget-spent" style="width:{{budget.bar}}%;" ng-class="{green: budget.amountSpent < 75, yellow: budget.amountSpent >=75 && budget.amountSpent < 100, red: budget.amountSpent > 100, blue: budget.amountSpent == 100}"></div>
 				<strong class="pull-left category">{{budget.category | categoryFilter:categories}}</strong>				
 				<strong class="pull-right hidden-sm hidden-xs">&nbsp;<span class="glyphicon glyphicon-list clickable" title="Show Expenses" ng-click="showBudgetExpenses(budget)"></span>&nbsp;<span class="glyphicon glyphicon-cog clickable" title="Edit Budget" ng-click="editBudget(budget)"></span>&nbsp;<span title="Delete Budget" class="glyphicon glyphicon-trash clickable" ng-click="deleteBudget(budget)"></span></strong>
 				<strong class="pull-right"><span class="hidden-sm hidden-xs">{{budget.amount - budget.totalSpent | currency}} of {{budget.amount | currency}}</span><span class="visible-sm visible-xs">{{budget.amount - budget.totalSpent | currency}}</span></strong>

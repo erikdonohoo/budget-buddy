@@ -106,9 +106,10 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			};
 
 			budget.amountSpent = budget.totalSpent / budget.amount;
-			if (budget.amountSpent > 0.999)
+			if (budget.amountSpent > 0.999 && budget.amountSpent < 1)
 				budget.amountSpent = 1;
 			budget.amountSpent *= 100;
+			budget.bar = (budget.amountSpent > 100) ? 100 : budget.amountSpent;
 		};
 	}
 
