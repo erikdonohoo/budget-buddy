@@ -323,6 +323,7 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 		date['__type'] = 'Date';
 		date.iso = copy.date;
 		copy.date = date;
+		copy.category = cat;
 		delete copy.chosenCategory;
 		delete copy.edit;
 		delete copy.fakeDate;
