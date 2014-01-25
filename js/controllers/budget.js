@@ -1,4 +1,4 @@
-angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $location, $routeParams, $scope, $filter, User, QuickBudget, DateHelp, Categories, Budgets, QuickExpense, Income, Expenses, QuickIncome, FilterHelper){
+angular.module("BudgetBuddy").controller('BudgetCtrl', function($http, $q, $timeout, $location, $routeParams, $scope, $filter, User, QuickBudget, DateHelp, Categories, Budgets, QuickExpense, Income, Expenses, QuickIncome, FilterHelper){
 	
 	// Start showing budgets
 	$scope.show = 'budgets';
@@ -32,17 +32,30 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 	$scope.lastDayOfMonth = DateHelp.getLastDayOfMonth;
 
 	// Determine carryover
-	QuickExpense.beforeMonth(DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth($scope.now)), null, function(expenses) {
-		$scope.spentBefore = 0;
-		for (var i = expenses.length - 1; i >= 0; i--) {
-			$scope.spentBefore += expenses[i].amount;
-		};
-	});
+	Parse.Cloud.run("totalspent", {before: DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth($scope.now)).toISOString()}, function(data){
+		$scope.$apply(function(){
+			$scope.spentBefore = data.total;
+		})
+	})
+	// $http.post("https://api.parse.com/1/functions/totalspent", ).success(function(data){
+	// 	console.log(data);
+	// }).error(function(er){
+	// 	console.log(er);
+	// });
+
+	// QuickExpense.beforeMonth(DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth($scope.now)), null, function(expenses) {
+	// 	$scope.spentBefore = 0;
+	// 	for (var i = expenses.length - 1; i >= 0; i--) {
+	// 		$scope.spentBefore += expenses[i].amount;
+	// 	};
+	// });
 	QuickIncome.beforeMonth(DateHelp.getLastDayOfMonth(DateHelp.getFirstDayOfPreviousMonth($scope.now)), function(incomes) {
 		$scope.incomeBefore = 0;
 		for (var i = incomes.length - 1; i >= 0; i--) {
 			$scope.incomeBefore += incomes[i].amount;
 		};
+
+		
 	})
 	var catDefer = $q.defer();
 	var catQuery = {};
@@ -336,4 +349,5 @@ angular.module("BudgetBuddy").controller('BudgetCtrl', function($q, $timeout, $l
 			});
 		});
 	}
+
 });

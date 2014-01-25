@@ -66,6 +66,7 @@
 			<h3 class="top">Budgeted: {{month.totalBudgeted | currency}}</h3>
 			<h3 class="top">Remaining: {{month.totalIncome + (incomeBefore - spentBefore) - month.totalBudgeted | currency}}</h3>
 			<h3 class="top">Spendable: {{month.totalIncome + (incomeBefore - spentBefore) - month.totalSpent | currency}}</h3>
+			<h3 class="top">Total Spent: {{month.totalSpent | currency}}</h3>
 		</div>
 	</div>
 	<div class="budgets col-sm-6">
